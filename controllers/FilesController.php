@@ -5,10 +5,12 @@ namespace app\controllers;
 use app\forms\UploadForm;
 use app\services\FileUploadService;
 use Yii;
+use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use Throwable;
 use yii\web\UploadedFile;
+use app\models\UploadedFile as UploadedFileModel;
 
 /**
  * Контроллер для работы с файлами
@@ -31,6 +33,24 @@ class FilesController extends Controller
                 ],
             ],
         ];
+    }
+
+    /**
+     * Страница со списком загруженных файлов
+     *
+     * @return string
+     */
+    public function actionIndex(): string
+    {
+        /** @var ActiveDataProvider $dataProvider */
+        $dataProvider = new ActiveDataProvider([
+            'query' => UploadedFileModel::find(),
+            'pagination' => [
+                'pageSize' => 8,
+            ],
+        ]);
+
+        return $this->render('index', compact('dataProvider'));
     }
 
     /**
