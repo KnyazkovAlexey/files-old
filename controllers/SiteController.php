@@ -57,11 +57,11 @@ class SiteController extends Controller
     /**
      * Displays homepage.
      *
-     * @return string
+     * @return Response
      */
-    public function actionIndex()
+    public function actionIndex(): Response
     {
-        return $this->render('index');
+        return Yii::$app->getResponse()->redirect('/files/add');
     }
 
     /**
