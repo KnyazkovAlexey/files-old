@@ -3,7 +3,6 @@
 namespace app\services;
 
 use app\forms\UploadForm;
-use yii\base\Model;
 use yii\db\Transaction;
 use yii\helpers\Inflector;
 use yii\web\UploadedFile;
@@ -20,7 +19,7 @@ use Yii;
  * Class FileUploadService
  * @package app\services
  */
-class FileUploadService extends Model
+class FileUploadService
 {
     /**
      * Загрузка файлов.
