@@ -2,12 +2,15 @@
 
 namespace app\forms;
 
+use app\traits\ModelTrait;
 use yii\base\Model;
 use yii\web\UploadedFile;
 use Yii;
 
 class UploadForm extends Model
 {
+    use ModelTrait;
+
     /**
      * @var UploadedFile[]
      */
