@@ -1,7 +1,7 @@
 <?php
 
-use app\forms\UploadForm;
-use yii\web\View ;
+use app\models\forms\UploadForm;
+use yii\web\View;
 use yii\widgets\ActiveForm;
 
 /**

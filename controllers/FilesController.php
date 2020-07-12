@@ -2,13 +2,14 @@
 
 namespace app\controllers;
 
-use app\forms\UploadForm;
+use app\models\forms\UploadForm;
 use app\services\FileUploadService;
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use Throwable;
+use yii\web\Response;
 use yii\web\UploadedFile;
 use app\models\UploadedFile as UploadedFileModel;
 
@@ -71,14 +72,16 @@ class FilesController extends Controller
      * 
      * @return string
      */
-    public function actionUpload(): string
+    public function actionUpload(): Response
     {
         /** @var UploadForm $form */
         $form = new UploadForm();
 
         $form->files = UploadedFile::getInstances($form, 'files');
 
-        if ($form->validate()) {
+        if (!$form->validate()) {
+            Yii::$app->session->setFlash('error', Yii::t('app', $form->firstErrorMessage));
+        } else {
             try {
                 (new FileUploadService())->upload($form);
 
@@ -91,6 +94,6 @@ class FilesController extends Controller
             }
         }
 
-        return $this->render('add', ['model' => $form]);
+        return Yii::$app->getResponse()->redirect('add');
     }
 }

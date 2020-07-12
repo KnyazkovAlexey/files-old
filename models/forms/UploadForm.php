@@ -1,6 +1,6 @@
 <?php
 
-namespace app\forms;
+namespace app\models\forms;
 
 use app\traits\ModelTrait;
 use yii\base\Model;
@@ -11,15 +11,13 @@ use Yii;
  * Форма для загрузки файлов
  *
  * Class UploadForm
- * @package app\forms
+ * @package app\models\forms
  */
 class UploadForm extends Model
 {
     use ModelTrait;
 
-    /**
-     * @var UploadedFile[]
-     */
+    /** @var UploadedFile[] $files */
     public $files;
 
     /**

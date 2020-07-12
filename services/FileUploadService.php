@@ -2,7 +2,7 @@
 
 namespace app\services;
 
-use app\forms\UploadForm;
+use app\models\forms\UploadForm;
 use yii\db\Transaction;
 use yii\helpers\Inflector;
 use yii\web\UploadedFile;
