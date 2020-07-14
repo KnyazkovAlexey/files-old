@@ -18,7 +18,7 @@ class UploadForm extends Model
     use ModelTrait;
 
     /** @var UploadedFile[] $files */
-    public $files;
+    public $files = [];
 
     /**
      * @inheritDoc

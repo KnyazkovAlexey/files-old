@@ -14,8 +14,6 @@ use Yii;
 /**
  * Сервис для загрузки файлов
  *
- * todo: Покрыть тестами данный сервис
- *
  * Class FileUploadService
  * @package app\services
  */
@@ -93,13 +91,24 @@ class FileUploadService
     }
 
     /**
-     * Обработка наименования файла (трансилит, нижний регистр)
+     * Обработка наименования файла (транслит, нижний регистр, ...)
      *
      * @param string $originalName
      * @return string
      */
     protected function prepareFileName(string $originalName): string
     {
-        return Inflector::transliterate(mb_strtolower($originalName));
+        /** @var string $fileName */
+
+        /** Транслит, нижний регистр */
+        $fileName = Inflector::transliterate(mb_strtolower($originalName));
+
+        /** Удаляем лишние пробелы */
+        $fileName = preg_replace('~\s{2,}~', ' ', trim($fileName));
+
+        /** Заменяем пробелы дефисами */
+        $fileName = preg_replace('~\s~', '-', $fileName);
+
+        return $fileName;
     }
 }
