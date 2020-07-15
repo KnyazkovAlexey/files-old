@@ -7,16 +7,19 @@ use Yii;
 use yii\helpers\FileHelper;
 
 /**
+ * Базовый класс для тестов
+ *
  * Class TestCase
  * @package app\tests
  */
 class TestCase extends \PHPUnit\Framework\TestCase
 {
-    /** @var string Путь до папки с временными файлами тестов */
-    protected const TMP_DIR_PATH = '@app/tests/tmp/';
-    /** @var bool $useDb */
+    /** @var string Путь до папки с временными файлами тестов. */
+    protected const TMP_DIR_PATH = '@app/tests/tmp';
+
+    /** @var bool $useDb Флаг о том, что тесты работают с БД. */
     protected bool $useDb = true;
-    /** @var bool $useFiles */
+    /** @var bool $useFiles Флаг о том, что тесты работают с файлами. */
     protected bool $useFiles = false;
     /** @var Transaction|null $transaction */
     protected ?Transaction $transaction = null;

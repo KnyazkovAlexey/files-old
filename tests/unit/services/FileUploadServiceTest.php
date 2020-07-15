@@ -81,7 +81,7 @@ class FileUploadServiceTest extends TestCase
         $fileName = $attributes['name'] ?? Yii::$app->security->generateRandomString(6) .'.txt';
 
         /** @var string $filePath */
-        $filePath = Yii::getAlias('@app/tests/tmp/' . $fileName);
+        $filePath = Yii::getAlias(self::TMP_DIR_PATH . '/' . $fileName);
 
         if (false === file_put_contents($filePath, '')) {
             throw new Exception('Не удалось создать файл ' . $filePath);
