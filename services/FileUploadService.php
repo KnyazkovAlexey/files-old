@@ -87,7 +87,7 @@ class FileUploadService
      */
     protected function generateFilePath(UploadedFile $file): string
     {
-        return 'uploads/' . uniqid() . '.' . $file->extension;
+        return Yii::getAlias('@app/web/uploads/') . uniqid() . '.' . $file->extension;
     }
 
     /**
