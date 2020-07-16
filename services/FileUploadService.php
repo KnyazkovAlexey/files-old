@@ -87,28 +87,24 @@ class FileUploadService
      */
     protected function generateFilePath(UploadedFile $file): string
     {
-        return Yii::getAlias('@app/web/uploads/') . uniqid() . '.' . $file->extension;
+        /** @var string $fileName */
+        $fileName = uniqid();
+
+        if (!empty($file->extension)) {
+            $fileName .= '.' . $file->extension;
+        }
+
+        return Yii::getAlias('@app/web/uploads/') . $fileName;
     }
 
     /**
-     * Обработка наименования файла (транслит, нижний регистр, ...)
+     * Обработка наименования файла (транслит, нижний регистр)
      *
      * @param string $originalName
      * @return string
      */
     protected function prepareFileName(string $originalName): string
     {
-        /** @var string $fileName */
-
-        /** Транслит, нижний регистр */
-        $fileName = Inflector::transliterate(mb_strtolower($originalName));
-
-        /** Удаляем лишние пробелы */
-        $fileName = preg_replace('~\s{2,}~', ' ', trim($fileName));
-
-        /** Заменяем пробелы дефисами */
-        $fileName = preg_replace('~\s~', '-', $fileName);
-
-        return $fileName;
+        return Inflector::transliterate(mb_strtolower($originalName));
     }
 }

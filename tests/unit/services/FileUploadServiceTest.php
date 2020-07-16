@@ -30,9 +30,9 @@ class FileUploadServiceTest extends TestCase
     public function testSuccessfulUpload()
     {
         /** @var string $fileName */
-        $fileName = 'Привет мир.txt';
+        $fileName = 'Привет, мир.txt';
         /** @var string $preparedFileName */
-        $preparedFileName = 'privet-mir.txt';
+        $preparedFileName = 'privet, mir.txt';
 
         /** @var UploadedFile $file */
         $file = $this->createUploadedFile(['name' => $fileName]);
