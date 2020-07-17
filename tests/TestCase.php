@@ -2,6 +2,8 @@
 
 namespace app\tests;
 
+use Faker\Factory;
+use Faker\Generator;
 use yii\db\Transaction;
 use Yii;
 use Exception;
@@ -9,7 +11,7 @@ use yii\helpers\FileHelper;
 use yii\web\UploadedFile;
 
 /**
- * Базовый класс для тестов
+ * Базовый класс для тестов.
  *
  * Class TestCase
  * @package app\tests
@@ -19,12 +21,28 @@ class TestCase extends \PHPUnit\Framework\TestCase
     /** @var string Путь до папки с временными файлами тестов. */
     protected const TMP_DIR_PATH = '@app/tests/tmp';
 
+    /** @var Generator $faker */
+    protected Generator $faker;
     /** @var bool $useDb Флаг о том, что тесты работают с БД. */
     protected bool $useDb = true;
     /** @var bool $useFiles Флаг о том, что тесты работают с файлами. */
     protected bool $useFiles = false;
     /** @var Transaction|null $transaction */
     protected ?Transaction $transaction = null;
+
+    /**
+     * TestCase constructor.
+     *
+     * @param string|null $name
+     * @param array $data
+     * @param string $dataName
+     */
+    public function __construct(?string $name = null, array $data = [], $dataName = '')
+    {
+        parent::__construct($name, $data, $dataName);
+
+        $this->faker = Factory::create();
+    }
 
     /**
      * @inheritDoc
@@ -85,7 +103,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
     protected function createUploadedFile(array $attributes = []): UploadedFile
     {
         /** @var string $fileName */
-        $fileName = $attributes['name'] ?? Yii::$app->security->generateRandomString(6) .'.txt';
+        $fileName = $attributes['name'] ?? $this->faker->lexify('??????') .'.txt';
 
         /** @var string $filePath */
         $filePath = Yii::getAlias(self::TMP_DIR_PATH . '/' . $fileName);
