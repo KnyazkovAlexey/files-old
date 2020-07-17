@@ -41,7 +41,7 @@ class FileUploadServiceTest extends TestCase
             'files' => [$file],
         ]);
 
-        $this->assertTrue((new FileUploadService())->upload($form));
+        $this->assertTrue($this->createFileUploadService()->upload($form));
 
         $this->assertTrue(UploadedFileModel::find()->where(['name' => $preparedFileName])->exists());
     }
@@ -57,7 +57,6 @@ class FileUploadServiceTest extends TestCase
         /** @var UploadedFile $file */
         $file = $this->createUploadedFile(['error' => rand(1, 8)]);
 
-
         /** @var UploadForm $form */
         $form = new UploadForm([
             'files' => [$file],
@@ -65,6 +64,21 @@ class FileUploadServiceTest extends TestCase
 
         $this->expectException(Exception::class);
 
-        (new FileUploadService())->upload($form);
+        $this->createFileUploadService()->upload($form);
+    }
+
+    /**
+     * Создание сервиса для загрузки файлов.
+     *
+     * @return FileUploadService
+     * @throws Exception
+     */
+    protected function createFileUploadService(): FileUploadService
+    {
+        $service = new FileUploadService();
+
+        $service->setUploadsDirPath(self::TMP_DIR_PATH);
+
+        return $service;
     }
 }

@@ -14,7 +14,7 @@ use yii\web\UploadedFile;
 use app\models\UploadedFile as UploadedFileModel;
 
 /**
- * Контроллер для работы с файлами
+ * Контроллер для работы с файлами.
  * 
  * Class FilesController
  * @package app\controllers
@@ -37,7 +37,7 @@ class FilesController extends Controller
     }
 
     /**
-     * Страница со списком загруженных файлов
+     * Страница со списком загруженных файлов.
      *
      * @return string
      */
@@ -55,7 +55,7 @@ class FilesController extends Controller
     }
 
     /**
-     * Страница загрузки файлов
+     * Страница загрузки файлов.
      * 
      * @return string
      */
@@ -68,7 +68,7 @@ class FilesController extends Controller
     }
 
     /**
-     * Загрузка файлов
+     * Загрузка файлов.
      * 
      * @return string
      */

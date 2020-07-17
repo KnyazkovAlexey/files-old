@@ -8,7 +8,7 @@ use yii\web\UploadedFile;
 use Yii;
 
 /**
- * Форма для загрузки файлов
+ * Форма для загрузки файлов.
  *
  * Class UploadForm
  * @package app\models\forms
@@ -18,7 +18,7 @@ class UploadForm extends Model
     use ModelTrait;
 
     /** @var UploadedFile[] $files */
-    public $files = [];
+    public array $files = [];
 
     /**
      * @inheritDoc

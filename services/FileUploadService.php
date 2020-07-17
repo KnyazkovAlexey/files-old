@@ -12,13 +12,34 @@ use Throwable;
 use Yii;
 
 /**
- * Сервис для загрузки файлов
+ * Сервис для загрузки файлов.
  *
  * Class FileUploadService
  * @package app\services
  */
 class FileUploadService
 {
+    /** @var string $uploadsDirPath Путь до папки, в которую следует загружать файлы. */
+    protected string $uploadsDirPath = '@app/web/uploads';
+
+    /**
+     * Смена папки для загрузки файлов.
+     *
+     * @param string $uploadsDirPath Абсолютный путь или алиас.
+     * @return bool
+     * @throws Exception
+     */
+    public function setUploadsDirPath(string $uploadsDirPath): bool
+    {
+        if (!is_dir(Yii::getAlias($uploadsDirPath))) {
+            throw new Exception('Папка ' . $uploadsDirPath . ' не существует.');
+        }
+
+        $this->uploadsDirPath = $uploadsDirPath;
+
+        return true;
+    }
+
     /**
      * Загрузка файлов.
      * Загружаем в транзакции, то есть либо всё, либо ничего.
@@ -50,7 +71,7 @@ class FileUploadService
     }
 
     /**
-     * Загрузка одного файла
+     * Загрузка одного файла.
      *
      * @param UploadedFile $file
      * @return bool
@@ -62,7 +83,7 @@ class FileUploadService
         $filePath = $this->generateFilePath($file);
 
         if (!$file->saveAs($filePath)) {
-            throw new Exception('Не удалось загрузить файл ' . $file->name);
+            throw new Exception('Не удалось загрузить файл ' . $file->name . '.');
         }
 
         /** @var UploadedFileModel $model */
@@ -73,14 +94,14 @@ class FileUploadService
         ]);
 
         if (!$model->save()) {
-            throw new Exception('Не удалось сохранить в БД данные о файле ' . $file->name);
+            throw new Exception('Не удалось сохранить в БД данные о файле ' . $file->name . '.');
         }
 
         return true;
     }
 
     /**
-     * Генерация пути для сохранения файла
+     * Генерация пути для сохранения файла.
      *
      * @param UploadedFile $file
      * @return string
@@ -94,11 +115,11 @@ class FileUploadService
             $fileName .= '.' . $file->extension;
         }
 
-        return Yii::getAlias('@app/web/uploads/') . $fileName;
+        return Yii::getAlias($this->uploadsDirPath . '/' . $fileName);
     }
 
     /**
-     * Обработка наименования файла (транслит, нижний регистр)
+     * Обработка наименования файла (транслит, нижний регистр).
      *
      * @param string $originalName
      * @return string
