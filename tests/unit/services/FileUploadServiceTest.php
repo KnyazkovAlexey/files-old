@@ -6,7 +6,6 @@ use app\models\forms\UploadForm;
 use app\services\FileUploadService;
 use app\tests\TestCase;
 use yii\web\UploadedFile;
-use Yii;
 use app\models\UploadedFile as UploadedFileModel;
 use Exception;
 use Throwable;
@@ -58,6 +57,7 @@ class FileUploadServiceTest extends TestCase
         /** @var UploadedFile $file */
         $file = $this->createUploadedFile(['error' => rand(1, 8)]);
 
+
         /** @var UploadForm $form */
         $form = new UploadForm([
             'files' => [$file],
@@ -66,33 +66,5 @@ class FileUploadServiceTest extends TestCase
         $this->expectException(Exception::class);
 
         (new FileUploadService())->upload($form);
-    }
-
-    /**
-     * Создание загруженного файла (некая имитация загрузки файла на сервер).
-     *
-     * @param array $attributes Кастомные свойства файла (name, type, tempName, size, error).
-     * @return UploadedFile
-     * @throws Exception
-     */
-    protected function createUploadedFile(array $attributes = []): UploadedFile
-    {
-        /** @var string $fileName */
-        $fileName = $attributes['name'] ?? Yii::$app->security->generateRandomString(6) .'.txt';
-
-        /** @var string $filePath */
-        $filePath = Yii::getAlias(self::TMP_DIR_PATH . '/' . $fileName);
-
-        if (false === file_put_contents($filePath, '')) {
-            throw new Exception('Не удалось создать файл ' . $filePath);
-        }
-
-        /** @var array $attributes */
-        $attributes = array_merge($attributes, [
-            'name' => $fileName,
-            'tempName' => $filePath,
-        ]);
-
-        return new UploadedFile($attributes);
     }
 }
